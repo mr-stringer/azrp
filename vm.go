@@ -17,6 +17,7 @@ func (p Pricer) GetVmPrice(location, currency, vmsku string) (VmPrice, error) {
 		return VmPrice{}, fmt.Errorf("unsupported location")
 	}
 
+	fmt.Println(getVmString(vmsku, location, currency))
 	ar, err := p.apg(getVmString(vmsku, location, currency))
 	if err != nil {
 		slog.Error("Failed to price VM")

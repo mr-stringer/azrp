@@ -40,13 +40,8 @@ func (p Pricer) GetPssdPrice(name, region, currency string) (PssdPrice, error) {
 	pp.Currency = currency
 	pp.Region = region
 	pp.Price = ar.Items[0].RetailPrice
-	size, err := getSizeFromPssd(name)
-	if err != nil {
-		/* These lines can't be easily tested as we already check that incorrect names */
-		/* at the top of the function */
-		slog.Error("Pdisk name cannot be resolved to a size", "pdisk name", name)
-		return PssdPrice{}, fmt.Errorf("pdisk name %s cannot be resolved to a size", name)
-	}
+	/*No need to check for error, disk name cannot be wrong here */
+	size, _ := getSizeFromPssd(name)
 	pp.SizeGiB = size
 
 	return pp, nil
