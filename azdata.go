@@ -14,7 +14,8 @@ const ApiUrl = "https://prices.azure.com/api/retail/prices"
 const ApiPreview = "2023-01-01-preview"
 
 // sapCur is a slice of strings the represent supported currencies
-var supCur = []string{"USD",
+var supCur = []string{
+	"USD",
 	"AUD",
 	"BRL",
 	"CAD",
@@ -30,7 +31,8 @@ var supCur = []string{"USD",
 	"NZD",
 	"RUB",
 	"SEK",
-	"TWD"}
+	"TWD",
+}
 
 /* list of regions generated with az */
 /* az account list-locations --query "[].{Name:name}" -o table */
