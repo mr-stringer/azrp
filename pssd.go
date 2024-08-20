@@ -16,7 +16,6 @@ func (p Pricer) GetPssdPrice(name, region, currency string) (PssdPrice, error) {
 		return PssdPrice{}, fmt.Errorf("\"%s\" is not a valid pdisk", name)
 	}
 
-	fmt.Print(getPssdString(name, region, currency))
 	ar, err := p.apg(getPssdString(name, region, currency))
 	if err != nil {
 		slog.Info("Failed to price pdisk")

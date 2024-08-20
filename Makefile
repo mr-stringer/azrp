@@ -2,10 +2,7 @@ LDFLAGS += -X 'main.ReleaseVersion=$(shell git describe --tags || echo "developm
 LDFLAGS += -X 'main.GitHash=$(shell git rev-parse HEAD)'
 
 .PHONY: all
-all: test build
+all: test
 
 test:
 	go test -v
-
-build:
-	go build -ldflags '$(LDFLAGS)'

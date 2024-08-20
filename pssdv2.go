@@ -16,7 +16,6 @@ func (p Pricer) GetPssdv2Price(region, currency string) (Pssdv2Price, error) {
 		return Pssdv2Price{}, fmt.Errorf("unsupported currency")
 	}
 
-	fmt.Println(getPssdv2String(region, currency))
 	ar, err := p.apg(getPssdv2String(region, currency))
 	if err != nil {
 		slog.Error("Failed to price pssdv2")
