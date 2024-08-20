@@ -8,16 +8,16 @@ import (
 
 // GetVmPrice provides the price of a VM in a specific location in a specific
 // currency.
-func (p Pricer) GetVmPrice(location, currency, vmsku string) (VmPrice, error) {
+func (p Pricer) GetVmPrice(vmSku, region, currency string) (VmPrice, error) {
 	// Check currency code
 	if !validateCurrencyCode(currency) {
 		return VmPrice{}, fmt.Errorf("unsupported currency")
 	}
-	if !validateLocation(location) {
+	if !validateLocation(region) {
 		return VmPrice{}, fmt.Errorf("unsupported location")
 	}
 
-	ar, err := p.apg(getVmString(vmsku, location, currency))
+	ar, err := p.apg(getVmString(vmSku, region, currency))
 	if err != nil {
 		slog.Error("Failed to price VM")
 		return VmPrice{}, fmt.Errorf("failed to price vm")
@@ -30,8 +30,8 @@ func (p Pricer) GetVmPrice(location, currency, vmsku string) (VmPrice, error) {
 	}
 
 	vmp := VmPrice{
-		VmSku:    vmsku,
-		Region:   location,
+		VmSku:    vmSku,
+		Region:   region,
 		Currency: currency,
 	}
 
@@ -64,15 +64,15 @@ func (p Pricer) GetVmPrice(location, currency, vmsku string) (VmPrice, error) {
 
 	/* Ensure all fields are populated */
 	if vmp.OneYrRi == 0 {
-		slog.Error("Couldn't retrieve 1 Year RI price", "VmSku", vmsku, "Region", location)
+		slog.Error("Couldn't retrieve 1 Year RI price", "VmSku", vmSku, "Region", region)
 		return VmPrice{}, fmt.Errorf("could not retrieve 1 year RI price for VM")
 	}
 	if vmp.ThreeYrRi == 0 {
-		slog.Error("Couldn't retrieve 3 Year RI price", "VmSku", vmsku, "Region", location)
+		slog.Error("Couldn't retrieve 3 Year RI price", "VmSku", vmSku, "Region", region)
 		return VmPrice{}, fmt.Errorf("could not retrieve 3 year RI price for VM")
 	}
 	if vmp.PaygHrRate == 0 {
-		slog.Error("Couldn't retrieve hourly PAYG price", "VmSku", vmsku, "Region", location)
+		slog.Error("Couldn't retrieve hourly PAYG price", "VmSku", vmSku, "Region", region)
 		return VmPrice{}, fmt.Errorf("could not retrieve hourly PAYG price for VM")
 	}
 

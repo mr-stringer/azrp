@@ -572,9 +572,9 @@ func TestPricer_GetVmPrice(t *testing.T) {
 		apg apiGetter
 	}
 	type args struct {
-		location string
+		vmSku    string
+		region   string
 		currency string
-		vmsku    string
 	}
 	tests := []struct {
 		name    string
@@ -583,22 +583,22 @@ func TestPricer_GetVmPrice(t *testing.T) {
 		want    VmPrice
 		wantErr bool
 	}{
-		{"Good", fields{goodGetter}, args{"uksouth", "GBP", "Standard_D2as_v5"},
+		{"Good", fields{goodGetter}, args{"Standard_D2as_v5", "uksouth", "GBP"},
 			VmPrice{"Standard_D2as_v5", "uksouth", "GBP", 0.077842, 33.53702, 21.601215, 0, 0}, false},
-		{"BadLocation", fields{apiGet}, args{"francewest", "EUR", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"BadCurrency", fields{apiGet}, args{"uksouth", "ZOP", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"FailedToPrice", fields{badGetter}, args{"uksouth", "GBP", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"EmptyResults", fields{emptyGetter}, args{"uksouth", "GBP", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"No1YrRi", fields{no1yeRiGetter}, args{"uksouth", "GBP", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"No3YrRi", fields{no3yeRiGetter}, args{"uksouth", "GBP", "Standard_D2ds_v5"}, VmPrice{}, true},
-		{"NoPayg", fields{noPaygRiGetter}, args{"uksouth", "GBP", "Standard_D2ds_v5"}, VmPrice{}, true},
+		{"BadCurrency", fields{apiGet}, args{"Standard_D2ds_v5", "uksouth", "ZOP"}, VmPrice{}, true},
+		{"BadLocation", fields{apiGet}, args{"Standard_D2ds_v5", "francewest", "EUR"}, VmPrice{}, true},
+		{"FailedToPrice", fields{badGetter}, args{"Standard_D2ds_v5", "uksouth", "GBP"}, VmPrice{}, true},
+		{"EmptyResults", fields{emptyGetter}, args{"Standard_D2ds_v5", "uksouth", "GBP"}, VmPrice{}, true},
+		{"No1YrRi", fields{no1yeRiGetter}, args{"Standard_D2ds_v5", "uksouth", "GBP"}, VmPrice{}, true},
+		{"No3YrRi", fields{no3yeRiGetter}, args{"Standard_D2ds_v5", "uksouth", "GBP"}, VmPrice{}, true},
+		{"NoPayg", fields{noPaygRiGetter}, args{"Standard_D2ds_v5", "uksouth", "GBP"}, VmPrice{}, true},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			p := Pricer{
 				apg: tt.fields.apg,
 			}
-			got, err := p.GetVmPrice(tt.args.location, tt.args.currency, tt.args.vmsku)
+			got, err := p.GetVmPrice(tt.args.vmSku, tt.args.region, tt.args.currency)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("Pricer.GetVmPrice() error = %v, wantErr %v", err, tt.wantErr)
 				return
