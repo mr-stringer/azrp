@@ -145,6 +145,23 @@ var pdisks []string = []string{
 	"P80",
 }
 
+var sdisks []string = []string{
+	"E1",
+	"E2",
+	"E3",
+	"E4",
+	"E6",
+	"E10",
+	"E15",
+	"E20",
+	"E30",
+	"E40",
+	"E50",
+	"E60",
+	"E70",
+	"E80",
+}
+
 // GetPssdFromSize is a function that takes the size of a required premium SSD
 // disk and returns the SKU string for pricing. This allows users who do not
 // know SKU of the disk sizes to simply supply the disk size in the config.
@@ -217,6 +234,76 @@ func getSizeFromPssd(pssd string) (uint, error) {
 		return 32768, nil
 	default:
 		return 0, fmt.Errorf("not a valid pdisk name")
+	}
+}
+
+func GetSssdFromSize(sz uint) string {
+	switch {
+	case sz <= 4:
+		return "E1"
+	case sz <= 8:
+		return "E2"
+	case sz <= 16:
+		return "E3"
+	case sz <= 32:
+		return "E4"
+	case sz <= 64:
+		return "E6"
+	case sz <= 128:
+		return "E10"
+	case sz <= 256:
+		return "E15"
+	case sz <= 512:
+		return "E20"
+	case sz <= 1024:
+		return "E30"
+	case sz <= 2048:
+		return "E40"
+	case sz <= 4096:
+		return "E50"
+	case sz <= 8192:
+		return "E60"
+	case sz <= 16384:
+		return "E70"
+	case sz <= 32768:
+		return "E80"
+	default:
+		return "error"
+	}
+}
+
+func getSizeFromSssd(pssd string) (uint, error) {
+	switch pssd {
+	case "E1":
+		return 4, nil
+	case "E2":
+		return 8, nil
+	case "E3":
+		return 16, nil
+	case "E4":
+		return 32, nil
+	case "E6":
+		return 64, nil
+	case "E10":
+		return 128, nil
+	case "E15":
+		return 256, nil
+	case "E20":
+		return 512, nil
+	case "E30":
+		return 1024, nil
+	case "E40":
+		return 2048, nil
+	case "E50":
+		return 4096, nil
+	case "E60":
+		return 8192, nil
+	case "E70":
+		return 16384, nil
+	case "E80":
+		return 32768, nil
+	default:
+		return 0, fmt.Errorf("not a valid sdisk name")
 	}
 }
 

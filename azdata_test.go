@@ -119,3 +119,77 @@ func Test_getSizeFromPssd(t *testing.T) {
 		})
 	}
 }
+
+func TestGetSssdFromSize(t *testing.T) {
+	type args struct {
+		sz uint
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{"E1", args{3}, "E1"},
+		{"E2", args{8}, "E2"},
+		{"E3", args{9}, "E3"},
+		{"E4", args{30}, "E4"},
+		{"E6", args{64}, "E6"},
+		{"E10", args{65}, "E10"},
+		{"E15", args{256}, "E15"},
+		{"E20", args{500}, "E20"},
+		{"E30", args{1024}, "E30"},
+		{"E40", args{1543}, "E40"},
+		{"E50", args{4096}, "E50"},
+		{"E60", args{8192}, "E60"},
+		{"E70", args{16384}, "E70"},
+		{"E80", args{32768}, "E80"},
+		{"Error", args{32999}, "error"},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			if got := GetSssdFromSize(tt.args.sz); got != tt.want {
+				t.Errorf("GetSssdFromSize() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}
+
+func Test_getSizeFromSssd(t *testing.T) {
+	type args struct {
+		pssd string
+	}
+	tests := []struct {
+		name    string
+		args    args
+		want    uint
+		wantErr bool
+	}{
+		{"GoodE1", args{"E1"}, 4, false},
+		{"GoodE2", args{"E2"}, 8, false},
+		{"GoodE3", args{"E3"}, 16, false},
+		{"GoodE4", args{"E4"}, 32, false},
+		{"GoodE6", args{"E6"}, 64, false},
+		{"GoodE0", args{"E10"}, 128, false},
+		{"GoodE15", args{"E15"}, 256, false},
+		{"GoodE20", args{"E20"}, 512, false},
+		{"GoodE30", args{"E30"}, 1024, false},
+		{"GoodE40", args{"E40"}, 2048, false},
+		{"GoodE50", args{"E50"}, 4096, false},
+		{"GoodE60", args{"E60"}, 8192, false},
+		{"GoodE70", args{"E70"}, 16384, false},
+		{"GoodE80", args{"E80"}, 32768, false},
+		{"BadDisk", args{"E128"}, 0, true},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			got, err := getSizeFromSssd(tt.args.pssd)
+			if (err != nil) != tt.wantErr {
+				t.Errorf("getSizeFromSssd() error = %v, wantErr %v", err, tt.wantErr)
+				return
+			}
+			if got != tt.want {
+				t.Errorf("getSizeFromSssd() = %v, want %v", got, tt.want)
+			}
+		})
+	}
+}

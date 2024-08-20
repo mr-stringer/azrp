@@ -15,6 +15,19 @@ type VmPrice struct {
 	ThreeYrSp  float32 // monthly rate for 3 year saving plan
 }
 
+// SssdPrice is a type that represents the price of an Azure Standard SSD disk
+// Currently only LRS is supported. The Price value represents the monthly cost
+// of the disk in the specified currency. The OpsPrice represents the cost of
+// ever 10,000 disk operations.
+type SssdPrice struct {
+	SssdName string  // name of the disk eg P10
+	SizeGiB  uint    // size of disk in GiB
+	Region   string  // location of the disk
+	Currency string  // currency of pricing
+	Price    float32 // monthly cost of disk
+	OpsPrice float32 // cost per 10K disk operations
+}
+
 // PssdPrice is a type that represents the price of an Azure Premium Disk (v1)
 // Currently, only LRS storage is supported
 type PssdPrice struct {
