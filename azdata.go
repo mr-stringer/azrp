@@ -128,7 +128,8 @@ var supReg = []string{
 	"switzerlandwest",
 	"ukwest",
 	"uaecentral",
-	"brazilsoutheast"}
+	"brazilsoutheast",
+}
 
 var pdisks []string = []string{
 	"P1",
