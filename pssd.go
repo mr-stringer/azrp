@@ -15,8 +15,21 @@ func (p Pricer) GetPssdPrice(name, region, currency string) (PssdPrice, error) {
 	if !slices.Contains(pdisks, name) {
 		return PssdPrice{}, fmt.Errorf("\"%s\" is not a valid pdisk", name)
 	}
+	p.ApiVersion = ApiPreview
+	p.Currency = currency
+	p.ArmRegionName = region
+	p.ServiceFamily = "Storage"
+	p.SkuName = fmt.Sprintf("%s LRS", name)
+	p.ProductName = fmt.Sprintf("%s LRS Disk", name)
+	p.PriceType = "Consumption"
 
-	ar, err := p.apg(getPssdString(name, region, currency))
+	s1, err := p.GetString()
+
+	if err != nil {
+		return PssdPrice{}, err
+	}
+
+	ar, err := p.apg(s1)
 	if err != nil {
 		slog.Info("Failed to price pdisk")
 		return PssdPrice{}, fmt.Errorf("failed to price pssd")

@@ -17,7 +17,18 @@ func (p Pricer) GetVmPrice(vmSku, region, currency string) (VmPrice, error) {
 		return VmPrice{}, fmt.Errorf("unsupported location")
 	}
 
-	ar, err := p.apg(getVmString(vmSku, region, currency))
+	p.ArmSkuName = vmSku
+	p.ArmRegionName = region
+	p.Currency = currency
+	p.ServiceFamily = "Compute"
+	p.ServiceName = "Virtual Machines"
+
+	s1, err := p.GetString()
+	if err != nil {
+		return VmPrice{}, err
+	}
+
+	ar, err := p.apg(s1)
 	if err != nil {
 		slog.Error("Failed to price VM")
 		return VmPrice{}, fmt.Errorf("failed to price vm")

@@ -16,7 +16,19 @@ func (p Pricer) GetPssdv2Price(region, currency string) (Pssdv2Price, error) {
 		return Pssdv2Price{}, fmt.Errorf("unsupported currency")
 	}
 
-	ar, err := p.apg(getPssdv2String(region, currency))
+	p.ApiVersion = ApiPreview
+	p.Currency = currency
+	p.ArmRegionName = currency
+	p.ServiceFamily = "Storage"
+	p.PriceType = "Consumption"
+	p.ProductName = "Azure Premium SSD v2"
+
+	s1, err := p.GetString()
+	if err != nil {
+		return Pssdv2Price{}, err
+	}
+
+	ar, err := p.apg(s1)
 	if err != nil {
 		slog.Error("Failed to price pssdv2")
 		return Pssdv2Price{}, fmt.Errorf("failed to price pssdv2")
