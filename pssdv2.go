@@ -18,10 +18,10 @@ func (p Pricer) GetPssdv2Price(region, currency string) (Pssdv2Price, error) {
 
 	p.ApiVersion = ApiPreview
 	p.Currency = currency
-	p.ArmRegionName = currency
+	p.ArmRegionName = region
+	p.ProductName = "Azure Premium SSD v2"
 	p.ServiceFamily = "Storage"
 	p.PriceType = "Consumption"
-	p.ProductName = "Azure Premium SSD v2"
 
 	s1, err := p.GetString()
 	if err != nil {

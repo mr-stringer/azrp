@@ -43,7 +43,11 @@ func TestPricer_GetString(t *testing.T) {
 		{"GoodPriceType", fields{apg: apiGet, Currency: "GBP", PriceType: "Reservation"}, "https://prices.azure.com/api/retail/prices?CurrencyCode=GBP&$filter=priceType%20eq%20%27Reservation%27", false},
 		{"GoodArmSkuName", fields{apg: apiGet, Currency: "GBP", ArmSkuName: "Standard_E48ads_v5"}, "https://prices.azure.com/api/retail/prices?CurrencyCode=GBP&$filter=armSkuName%20eq%20%27Standard_E48ads_v5%27", false},
 		{"GoodCombo", fields{apg: apiGet, Currency: "GBP", ArmRegionName: "uksouth", ArmSkuName: "Standard_E48ads_v5"}, "https://prices.azure.com/api/retail/prices?CurrencyCode=GBP&$filter=armRegionName%20eq%20%27uksouth%27%20and%20armSkuName%20eq%20%27Standard_E48ads_v5%27", false},
+		{"GoodPssd", fields{apg: apiGet, ApiVersion: "2023-01-01-preview", Currency: "GBP", ArmRegionName: "uksouth", ServiceFamily: "Storage", SkuName: "P10 LRS", ProductName: "Premium SSD Managed Disks", MeterName: "P10 LRS Disk", PriceType: "Consumption"},
+			"https://prices.azure.com/api/retail/prices?api-version=2023-01-01-preview&CurrencyCode=GBP&$filter=armRegionName%20eq%20%27uksouth%27%20and%20meterName%20eq%20%27P10%20LRS%20Disk%27%20and%20productName%20eq%20%27Premium%20SSD%20Managed%20Disks%27%20and%20skuName%20eq%20%27P10%20LRS%27%20and%20serviceFamily%20eq%20%27Storage%27%20and%20priceType%20eq%20%27Consumption%27", false},
 		{"NoCurrency", fields{apg: apiGet, Currency: ""}, "", true},
+		{"GoodPssdv2", fields{apg: apiGet, ApiVersion: "2023-01-01-preview", Currency: "GBP", ArmRegionName: "uksouth", ProductName: "Azure Premium SSD v2", ServiceFamily: "Storage", PriceType: "Consumption"},
+			"https://prices.azure.com/api/retail/prices?api-version=2023-01-01-preview&CurrencyCode=GBP&$filter=armRegionName%20eq%20%27uksouth%27%20and%20productName%20eq%20%27Azure%20Premium%20SSD%20v2%27%20and%20serviceFamily%20eq%20%27Storage%27%20and%20priceType%20eq%20%27Consumption%27", false},
 		{"UnsupportedCurrency", fields{apg: apiGet, Currency: "ZOP"}, "", true},
 	}
 	for _, tt := range tests {
