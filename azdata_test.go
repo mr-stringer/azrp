@@ -108,7 +108,7 @@ func Test_getSizeFromPssd(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getSizeFromPssd(tt.args.pssd)
+			got, err := GetSizeFromPssd(tt.args.pssd)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getSizeFromPssd() error = %v, wantErr %v", err, tt.wantErr)
 				return
@@ -182,7 +182,7 @@ func Test_getSizeFromSssd(t *testing.T) {
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			got, err := getSizeFromSssd(tt.args.pssd)
+			got, err := GetSizeFromSssd(tt.args.pssd)
 			if (err != nil) != tt.wantErr {
 				t.Errorf("getSizeFromSssd() error = %v, wantErr %v", err, tt.wantErr)
 				return

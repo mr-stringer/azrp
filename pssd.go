@@ -20,8 +20,8 @@ func (p Pricer) GetPssdPrice(name, region, currency string) (PssdPrice, error) {
 	p.ArmRegionName = region
 	p.MeterName = fmt.Sprintf("%s LRS Disk", name)
 	p.ProductName = "Premium SSD Managed Disks"
-	p.ServiceFamily = "Storage"
 	p.SkuName = fmt.Sprintf("%s LRS", name)
+	p.ServiceFamily = "Storage"
 	p.PriceType = "Consumption"
 
 	s1, err := p.GetString()
@@ -54,7 +54,7 @@ func (p Pricer) GetPssdPrice(name, region, currency string) (PssdPrice, error) {
 	pp.Region = region
 	pp.Price = ar.Items[0].RetailPrice
 	/*No need to check for error, disk name cannot be wrong here */
-	size, _ := getSizeFromPssd(name)
+	size, _ := GetSizeFromPssd(name)
 	pp.SizeGiB = size
 
 	return pp, nil
