@@ -205,7 +205,7 @@ func GetPssdFromSize(sz uint) string {
 	}
 }
 
-func getSizeFromPssd(pssd string) (uint, error) {
+func GetSizeFromPssd(pssd string) (uint, error) {
 	switch pssd {
 	case "P1":
 		return 4, nil
@@ -275,7 +275,7 @@ func GetSssdFromSize(sz uint) string {
 	}
 }
 
-func getSizeFromSssd(pssd string) (uint, error) {
+func GetSizeFromSssd(pssd string) (uint, error) {
 	switch pssd {
 	case "E1":
 		return 4, nil

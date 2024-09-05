@@ -13,7 +13,7 @@ func (p Pricer) GetSssdPrice(name, region, currency string) (SssdPrice, error) {
 	}
 	//Ensure pdisk name is valid
 	if !slices.Contains(sdisks, name) {
-		return SssdPrice{}, fmt.Errorf("\"%s\" is not a valid sdisk", name)
+		return SssdPrice{}, fmt.Errorf("%s is not a valid sdisk", name)
 	}
 
 	diskUrl, OpsUrl := getSssdStrings(name, region, currency)
@@ -59,7 +59,7 @@ func (p Pricer) GetSssdPrice(name, region, currency string) (SssdPrice, error) {
 	pp.Region = region
 	pp.Price = arDisk.Items[0].RetailPrice
 	pp.OpsPrice = arOps.Items[0].RetailPrice
-	size, _ := getSizeFromSssd(name)
+	size, _ := GetSizeFromSssd(name)
 	/* No need to check for error, the code wouldn't get this far is name was */
 	/* incorrect                                                              */
 	pp.SizeGiB = size
