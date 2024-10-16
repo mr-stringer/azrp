@@ -1,8 +1,5 @@
 # azrp
 
-![Go](https://github.com/mr-stringer/azrp/actions/workflows/go.yml/badge.svg)
-![Go Coverage](https://github.com/mr-stringer/azrpÛ/actions/workflows/gocover.yaml/badge.svg)
-
 azrp is a go module for retrieving Azure retails prices.
 
 The module allows users to retrieve Azure retails prices without any prior 
