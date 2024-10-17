@@ -1,0 +1,42 @@
+name: "Go Coverage"
+on:
+  pull_request:
+  push:
+    branches:
+      # It's important that the action also runs on merge to main
+      - main
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        # default fetch-depth is insufficient to find previous coverage notes
+        fetch-depth: 10
+
+    - uses: gwatts/go-coverage-action@v2
+      id: coverage
+      with:
+        # Optional coverage threshold
+        # use fail-coverage to determine what should happen below this threshold
+        coverage-threshold: 80
+
+        # collect coverage for all packages beyond the one under test
+        cover-pkg: ./...
+
+        # Ignore code-generated files when calculating coverage totals
+        ignore-pattern: |
+          \.pb\.go$
+          \_string\.go$
+
+    - name: Update coverage badge
+      uses: schneegans/dynamic-badges-action@v1.7.0
+      if: github.ref_name == 'main'
+      with:
+        auth: ${{ secrets.go-cover-gist }}
+        gistID: 087cd593d18ffd439a1acbd2576ea388
+        filename: go-cover-badge.json
+        label: Go Coverage
+        message: ${{ steps.coverage.outputs.coverage-pct-1dp }}%
+        color: ${{ steps.coverage.outputs.meets-threshold == 'true' && 'green' || 'red' }}
