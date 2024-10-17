@@ -1,5 +1,7 @@
 # azrp
 
+![badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/mr-stringer/087cd593d18ffd439a1acbd2576ea388/raw/go-cover-badge.json)
+
 azrp is a go module for retrieving Azure retails prices.
 
 The module allows users to retrieve Azure retails prices without any prior 
