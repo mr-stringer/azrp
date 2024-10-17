@@ -34,7 +34,7 @@ jobs:
       uses: schneegans/dynamic-badges-action@v1.7.0
       if: github.ref_name == 'main'
       with:
-        auth: ${{ secrets.go-cover-gist }}
+        auth: ${{ secrets.GIST_SECRET }}
         gistID: 087cd593d18ffd439a1acbd2576ea388
         filename: go-cover-badge.json
         label: Go Coverage
