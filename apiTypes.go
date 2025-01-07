@@ -1,5 +1,7 @@
 package azrp
 
+import "fmt"
+
 // ApiResponse is a struct that encapsulates the response object from the Azure
 // Retail Pricing API
 type ApiResponse struct {
@@ -45,4 +47,60 @@ type SavingsPlan struct {
 	UnitPrice   float32 `json:"unitPrice"`
 	RetailPrice float32 `json:"retailPrice"`
 	Term        string  `json:"term"`
+}
+
+func (a *ApiResponse) GetCSV(header bool) []string {
+	ret := []string{}
+	if header {
+		str := "\"CurrencyCode\"," +
+			"\"TierMinimumUnits\"," +
+			"\"RetailPrice\"," +
+			"\"UnitPrice\"," +
+			"\"ArmRegionName\"," +
+			"\"Location\"," +
+			"\"EffectiveStartDate\"," +
+			"\"MeterID\"," +
+			"\"MeterName\"," +
+			"\"ProductID\"," +
+			"\"SkuID\"," +
+			"\"AvailabilityID\"," +
+			"\"ProductName\"," +
+			"\"SkuName\"," +
+			"\"ServiceName\"," +
+			"\"ServiceID\"," +
+			"\"ServiceFamily\"," +
+			"\"UnitOfMeasure\"," +
+			"\"Type\"," +
+			"\"IsPrimaryMeterRegion\"," +
+			"\"ArmSkuName\"," +
+			"\"ReservationTerm\""
+		ret = append(ret, str)
+	}
+	for _, v := range a.Items {
+		str := fmt.Sprint(
+			"\"", v.CurrencyCode, "\",",
+			"\"", v.TierMinimumUnits, "\",",
+			"\"", v.RetailPrice, "\",",
+			"\"", v.UnitPrice, "\",",
+			"\"", v.ArmRegionName, "\",",
+			"\"", v.Location, "\",",
+			"\"", v.EffectiveStartDate, "\",",
+			"\"", v.MeterID, "\",",
+			"\"", v.MeterName, "\",",
+			"\"", v.ProductID, "\",",
+			"\"", v.SkuID, "\",",
+			"\"", v.AvailabilityID, "\",",
+			"\"", v.ProductName, "\",",
+			"\"", v.SkuName, "\",",
+			"\"", v.ServiceName, "\",",
+			"\"", v.ServiceID, "\",",
+			"\"", v.ServiceFamily, "\",",
+			"\"", v.UnitOfMeasure, "\",",
+			"\"", v.Type, "\",",
+			"\"", v.IsPrimaryMeterRegion, "\",",
+			"\"", v.ArmSkuName, "\",",
+			"\"", v.ReservationTerm, "\"")
+		ret = append(ret, str)
+	}
+	return ret
 }

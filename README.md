@@ -107,7 +107,8 @@ prc.ArmRegionName = "germanywestcentral"
 prc.ServiceFamily = "Storage"
 ```
 
-With the Pricer configured, the user may run `GetString` or `Execute`.
+With the Pricer configured, the user may run `GetString`, `Execute` or
+`ExecuteAll`.
 
 `GetString` will return the full API endpoint as a string that can then be
 passed to another process (such as http.Get).
@@ -116,10 +117,16 @@ However, running `Execute` will make the request and return the type
 `ApiResponse`.
 
 Care should be taken when creating and using custom API requests. The `Execute`
-function simply marshals the result from the API into the `ApiResonse` type.
+function simply marshals the result from the API into the `ApiResponse` type.
 The results of the API return may not match what the user expects.
 
 Also be aware the that further calls may be required to retrieve all elements.
-If the field `ApiResonse.NextPageLink` is not an empty string, then the value
+If the field `ApiResponse.NextPageLink` is not an empty string, then the value
 will be a new endpoint that will provide additional elements and possible
 another endpoint.
+
+To ease the pain of queries that produce multiple pages of results, the
+`ExecuteAll` function will check the `ApiResponse.NextPageLink` property and
+keep fetching items until they have been exhausted. All of the items found are
+added to the `ApiResponse.Items` array and a single ApiResults object is
+returned.
