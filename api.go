@@ -8,6 +8,7 @@ import (
 
 type apiGetter func(url string) (ApiResponse, error)
 
+// apiGet is used to get a single page or results from the retail price API
 func apiGet(url string) (ApiResponse, error) {
 	resp, err := http.Get(url)
 	if err != nil {
@@ -65,5 +66,8 @@ func apiGetAll(url string) (ApiResponse, error) {
 
 		}
 	}
+	/* fixes unexpected values */
+	ar.Count = uint(len(ar.Items))
+	ar.NextPageLink = ""
 	return ar, nil
 }
